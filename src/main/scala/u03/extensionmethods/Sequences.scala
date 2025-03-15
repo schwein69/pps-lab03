@@ -23,7 +23,8 @@ object Sequences:
         case Cons(h, t) if pred(h) => Cons(h, t.filter(pred))
         case Cons(_, t) => t.filter(pred)
         case Nil() => Nil()
-
+      
+      
     def of[A](n: Int, a: A): Sequence[A] =
       if n == 0 then Nil[A]() else Cons(a, of(n - 1, a))
   end Sequence
