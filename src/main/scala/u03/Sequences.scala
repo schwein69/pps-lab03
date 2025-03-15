@@ -25,14 +25,14 @@ object Sequences: // Essentially, generic linkedlists
       case Nil()                 => Nil()
 
     // Lab 03
+    def skip[A](s: Sequence[A])(n: Int): Sequence[A] = ???
+    
     def zip[A, B](first: Sequence[A], second: Sequence[B]): Sequence[(A, B)] = ???
 
-    def take[A](l: Sequence[A])(n: Int): Sequence[A] = ???
-    
-    def concat[A](l1: Sequence[A], l2: Sequence[A]): Sequence[A] = ???
-    def flatMap[A, B](l: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] = ???
+    def concat[A](s1: Sequence[A], s2: Sequence[A]): Sequence[A] = ???
+    def flatMap[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] = ???
 
-    def min(l: Sequence[Int]): Optional[Int] = ???
+    def min(s: Sequence[Int]): Optional[Int] = ???
     
 @main def trySequences =
   import Sequences.* 
