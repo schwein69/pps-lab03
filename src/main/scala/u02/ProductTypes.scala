@@ -1,6 +1,6 @@
 package u02
 
-object ProductTypes extends App :
+object ProductTypes extends App:
 
   // Product types, aka, records
   case class Point2D(x: Double, y: Double)
@@ -27,3 +27,4 @@ object ProductTypes extends App :
   println(sum(Point2D(10, 20), Point2D(3, 4))) // Point2D(13.0,24.0)
   println(getX(Point2D(10, 20))) // 10
   println(chgX(Point2D(10, 20), 11)) // Point2D(11,20)
+end ProductTypes

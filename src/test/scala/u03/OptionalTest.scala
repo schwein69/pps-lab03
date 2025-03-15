@@ -25,3 +25,4 @@ class OptionTest:
     assertEquals(Just(6), map(optSome)(_ + 1))
     assertEquals(Just("val: 5"), map(optSome)(v => "val: " + v))
     assertEquals(Empty(), map(optNone)(v => "val: " + v))
+end OptionTest

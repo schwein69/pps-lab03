@@ -32,3 +32,4 @@ class BooleanLambdaTest extends LambdaTest:
     assertFalse(toBoolean(And(False)(True)))
     assertFalse(toBoolean(And(True)(False)))
     assertTrue(toBoolean(And(True)(True)))
+end BooleanLambdaTest

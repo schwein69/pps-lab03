@@ -1,6 +1,5 @@
 package u03
 
-
 abstract class LambdaTest:
   import Lambda.*
 

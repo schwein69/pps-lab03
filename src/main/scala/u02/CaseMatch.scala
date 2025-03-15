@@ -22,3 +22,4 @@ object CaseMatch extends App:
   val g: Int => String = { case n if n > 0 => "pos" } // 1-liner
   println(g(1)) // pos
   // g(0) raises a scala.MatchError
+end CaseMatch

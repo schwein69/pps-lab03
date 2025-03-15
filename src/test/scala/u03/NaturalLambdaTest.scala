@@ -26,3 +26,4 @@ class NaturalLambdaTest extends LambdaTest:
     assertTrue(toBoolean(IsZero(Pred(Pred(Plus(N1)(N1))))))
     assertTrue(toBoolean(IsZero(Pred(Pred(Pred(Plus(N2)(N1)))))))
     assertTrue(toBoolean(IsZero(Pred(Plus(N1)(N0)))))
+end NaturalLambdaTest

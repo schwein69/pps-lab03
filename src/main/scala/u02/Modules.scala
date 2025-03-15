@@ -1,6 +1,6 @@
 package u02
 
-object Modules extends App :
+object Modules extends App:
 
   // An ADT: type + module
   enum Person:
@@ -24,3 +24,4 @@ object Modules extends App :
     case _ => false
 
   println(isStudent(Student("mario", 2015)))
+end Modules

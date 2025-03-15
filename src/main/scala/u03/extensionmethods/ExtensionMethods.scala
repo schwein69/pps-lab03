@@ -1,16 +1,16 @@
 package u03.extensionmethods
 
 object ExtensionMethods extends App:
-  
+
   // functional style for declaring operations
   def mult(n: Int, m: Int): Int = n * m
-  
+
   // functional style of operation call
   println:
     mult(5, 3)
 
   // extension methods:
-  // a twist on definition: extracting an argument  
+  // a twist on definition: extracting an argument
   extension (n: Int) def mult2(m: Int): Int = n * m
   // standard call in curried version is still possible
   println:
@@ -20,15 +20,15 @@ object ExtensionMethods extends App:
     5.mult2(3)
 
   import u03.Sequences.*
-  import Sequence.* 
+  import Sequence.*
 
   // cannot chain calls!
   val seq = Cons(10, Cons(20, Cons(30, Nil())))
   println:
     Sequence.sum(map(filter(seq)(_ > 10))(_ + 1))
-  
+
   // define size and filt as extension methods on a generic Sequence[A]
-  extension [A](s: Sequence[A]) 
+  extension [A](s: Sequence[A])
 
     def size: Int = s match
       case Cons(_, t) => 1 + t.size
@@ -42,8 +42,4 @@ object ExtensionMethods extends App:
   // can chain method calls now!
   println:
     seq.filt(_ > 10).size
-    
-    
-  
-
-
+end ExtensionMethods

@@ -27,3 +27,4 @@ class OptionTestImproved:
     assertEquals(Just(optVal + 1), map(optSome)(_ + 1))
     assertEquals(Just("val: " + optVal), map(optSome)(v => "val: " + v))
     assertEquals(Empty(), map(optNone)(v => "val: " + v))
+end OptionTestImproved

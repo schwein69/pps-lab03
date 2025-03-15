@@ -1,6 +1,6 @@
 package u03
 
-object Streams extends App :
+object Streams extends App:
 
   import Sequences.*
 
@@ -44,9 +44,10 @@ object Streams extends App :
       case _ => Empty()
 
   end Stream
+end Streams
 
 @main def tryStreams =
-  import Streams.* 
+  import Streams.*
 
   val str1 = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
   val str2 = Stream.map(str1)(_ + 1) // {1,2,3,4,..}

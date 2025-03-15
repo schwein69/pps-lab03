@@ -1,6 +1,6 @@
 package u02
 
-object Tuples extends App :
+object Tuples extends App:
 
   // a generic product type
   case class Tup1[A](a: A)
@@ -31,3 +31,4 @@ object Tuples extends App :
   val t2 = Tuple2(10, true)
 
   println(s"$t, $t2, ${t == t2}") // (10,true), (10,true), true
+end Tuples

@@ -1,6 +1,6 @@
 package u03
 
-object BTrees extends App :
+object BTrees extends App:
 
   // A custom and generic binary tree of elements of type A
   enum Tree[A]:
@@ -29,3 +29,4 @@ object BTrees extends App :
   println(find(tree, 1)) // true
   println(find(tree, 4)) // false
   println(count(tree, 1)) // 2
+end BTrees

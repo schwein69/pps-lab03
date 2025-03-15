@@ -1,6 +1,6 @@
 package u02
 
-object DefinedFunctions extends App :
+object DefinedFunctions extends App:
 
   // defined function
   def square(d: Double): Double = d * d
@@ -37,3 +37,4 @@ object DefinedFunctions extends App :
     _fact(n, 1)
 
   println(factorial2(6)) // 720
+end DefinedFunctions

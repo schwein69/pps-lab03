@@ -13,7 +13,7 @@ object AnonymousFunctions extends App:
   println(s"${f1(10, 5)}, ${f4(10, 5)}") // (15,15)
 
   val g: Int => Int =
-    (x: Int) =>  // a lambda with an imperative body
+    (x: Int) => // a lambda with an imperative body
       println("hello") // note "significant indentation"
       x + 1 // last statement is a return
 
@@ -24,7 +24,7 @@ object AnonymousFunctions extends App:
     (a, b, f) => f(a, b)
 
   println(h(10, 5, _ * _)) // 50
-  println(h(10, 5, (a, b) => a + b )) // 15
+  println(h(10, 5, (a, b) => a + b)) // 15
   println(h(10, 5, f1)) // 15
 
   val i: (Int, Int => Int, Int => Int) => Int =
@@ -36,3 +36,4 @@ object AnonymousFunctions extends App:
     f => (i => f(f(i))) // without parens: f => i => f(f(i))
 
   println(l(_ + 1)(10)) // 12, see currying next..
+end AnonymousFunctions
