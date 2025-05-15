@@ -3,6 +3,9 @@ package u03
 import u03.Optionals.Optional
 import u03.Optionals.Optional.*
 
+import scala.annotation.tailrec
+import scala.jdk.Accumulator
+
 object Sequences: // Essentially, generic linkedlists
 
   enum Sequence[E]:
@@ -89,28 +92,54 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [30, 20, 10] => 10
      * E.g., [10, 1, 30] => 1
      */
-    def min(s: Sequence[Int]): Optional[Int] = ???
+    def min(s: Sequence[Int]): Optional[Int] =
+      @annotation.tailrec
+      def _min(s: Sequence[Int], min: Optional[Int]): Optional[Int] = s match
+        case Cons(h, t) => min match
+          case Empty() => _min(t, Just(h))
+          case Just(m) if h < m => _min(t, Just(h))
+          case _ => _min(t, min)
+        case Nil() => min
+
+      _min(s, Empty())
+
 
     /*
-     * Get the elements at even indices
-     * E.g., [10, 20, 30] => [10, 30]
-     * E.g., [10, 20, 30, 40] => [10, 30]
-     */
-    def evenIndices[A](s: Sequence[A]): Sequence[A] = ???
+   * Get the elements at even indices
+   * E.g., [10, 20, 30] => [10, 30]
+   * E.g., [10, 20, 30, 40] => [10, 30]
+   */
+    def evenIndices[A](s: Sequence[A]): Sequence[A] =
+      def _evenIndices(s: Sequence[A], accumulator: Int): Sequence[A] = s match
+        case Cons(h, t) if accumulator % 2 == 0 => Cons(h, _evenIndices(t, accumulator + 1))
+        case Cons(h, t) => _evenIndices(t, accumulator + 1)
+        case _ => s
+
+      _evenIndices(s, 0)
 
     /*
      * Check if the sequence contains the element
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
      */
-    def contains[A](s: Sequence[A])(elem: A): Boolean = ???
+    def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) if h == elem => true
+      case Cons(h, t) => contains(t)(elem)
+      case _ => false
 
     /*
      * Remove duplicates from the sequence
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
+    def distinct[A](s: Sequence[A]): Sequence[A] =
+      def _distinct(s: Sequence[A], seen: Sequence[A]): Sequence[A] = s match
+        case Cons(h, t) if contains(seen)(h) => _distinct(t, seen)
+        case Cons(h, t) => Cons(h, _distinct(t, concat(seen, Cons(h, Nil()))))
+        case _ => Nil()
+
+      _distinct(s, Nil())
+
 
     /*
      * Group contiguous elements in the sequence
@@ -118,7 +147,23 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [[10], [20], [30]]
      * E.g., [10, 20, 20, 30] => [[10], [20, 20], [30]]
      */
-    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = ???
+    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = s match {
+      case Cons(h, t) =>
+        val (grouped, rest) = groupContiguous(Cons(h, Nil()), t) //[[10],10,20,30] => [[10,10]] , [20,30]
+        Cons(grouped, group(rest))
+      case Nil() => Nil()
+    }
+
+    // Helper function to group contiguous elements
+    def groupContiguous[A](group: Sequence[A], remaining: Sequence[A]): (Sequence[A], Sequence[A]) = remaining match
+      case Cons(h, t) => group match // rest
+        case Cons(h2, _) if h == h2 =>
+          groupContiguous(Cons(h, group), t) // [[10,10],20,30]
+        case _ =>
+          (group, remaining) // [[10,10]] , [20,30]
+      case _ =>
+        (group, remaining)
+
 
     /*
      * Partition the sequence into two sequences based on the predicate
@@ -126,6 +171,12 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [11, 20, 31] => ([20], [11, 31]) if pred is (_ % 2 == 0)
      */
     def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = ???
+
+    @tailrec
+    def foldLeft[A](s: Sequence[A], acc: Int, f: (Int, A) => Int): Int = s match
+      case Cons(h, t) => foldLeft((t), f(acc, h), f)
+      case _ => acc
+
 
   end Sequence
 end Sequences

@@ -1,5 +1,7 @@
 package u03.extensionmethods
 
+import scala.annotation.tailrec
+
 object Sequences:
 
   enum Sequence[E]:
@@ -23,8 +25,14 @@ object Sequences:
         case Cons(h, t) if pred(h) => Cons(h, t.filter(pred))
         case Cons(_, t) => t.filter(pred)
         case Nil() => Nil()
-      
-      
+
+
+      @tailrec
+      def foldLeft(acc: Int, f: (Int, A) => Int): Int = l match
+        case Cons(h, t) => t.foldLeft(f(acc, h), f)
+        case Nil() => acc
+
+
     def of[A](n: Int, a: A): Sequence[A] =
       if n == 0 then Nil[A]() else Cons(a, of(n - 1, a))
   end Sequence

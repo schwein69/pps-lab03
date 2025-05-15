@@ -29,7 +29,7 @@ object Streams:
 
     extension [A](stream: Stream[A])
       def filter(pred: A => Boolean): Stream[A] = stream match
-        case Cons(head, tail) if (pred(head())) => cons(head(), tail().filter(pred))
+        case Cons(head, tail) if pred(head()) => cons(head(), tail().filter(pred))
         case Cons(head, tail) => tail().filter(pred)
         case _ => Empty()
 
@@ -44,6 +44,22 @@ object Streams:
     def generate[A](supplier: () => A): Stream[A] =
       cons(supplier(), generate(supplier))
 
+    extension [A](stream: Stream[A])
+      def takeWhile(pred: A => Boolean): Stream[A] = stream match
+        case (Cons(h, t)) if pred(h()) => cons(h(), t().takeWhile(pred))
+        case _ => Empty()
+
+    def fill[A](n: Int)(init: A): Stream[A] =
+      if n > 0 then cons(init, fill(n - 1)(init)) else cons(init, Empty())
+
+
+    def fibonacci: Stream[Int] =
+      def fib(a: Int, b: Int): Stream[Int] =
+        cons(a, fib(b, a + b))
+
+      fib(0, 1)
+
+
   end Stream
 end Streams
 
@@ -51,12 +67,19 @@ end Streams
   import Streams.*
   import Stream.*
 
-  generate(() => "a").take(10).toList
+  println(generate(() => "a").take(10).toList)
 
-  generate(() => Math.random())
+  println(generate(() => Math.random())
     .map(x => (x * 10).toInt)
     .filter(x => x < 5)
     .take(10)
-    .toList
+    .toList)
 
-  // generate(() => scala.io.StdIn.readLine).map(s => {println(s);s}).foldleft("")(_ + _)
+  val stream = Stream.iterate(0)(_ + 1)
+  println(Stream.toList(Stream.takeWhile(stream)(_ < 5)))
+
+  println(Stream.toList(Stream.fill(3)("a")))
+
+  val fibonacci: Stream[Int] = Stream.fibonacci
+  println(Stream.toList(fibonacci.take(5))) // Cons (0 , Cons (1 , Cons (1 , Cons (2 , Cons (3 , Nil ()))))
+// generate(() => scala.io.StdIn.readLine).map(s => {println(s);s}).foldleft("")(_ + _)

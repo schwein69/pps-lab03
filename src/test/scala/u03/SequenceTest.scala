@@ -1,11 +1,11 @@
 package u03
 
 import Optionals.Optional.*
-import extensionmethods.Sequences.*
 import org.junit.*
 import org.junit.Assert.*
 
 class SequenceTest:
+
   import u03.Sequences.*
   import Sequence.*
 
@@ -51,7 +51,7 @@ class SequenceTest:
     assertEquals(Nil(), flatMap(Nil())(v => Cons(v, Nil())))
 
   @Test def testMin() =
-    assertEquals(Just(10), min(sequence))
+    assertEquals(Just(5), min(Cons(10, Cons(5, Cons(30, Nil())))))
     assertEquals(Just(1), min(Cons(1, Nil())))
     assertEquals(Empty(), min(Nil()))
 
@@ -87,4 +87,7 @@ class SequenceTest:
     assertEquals(Nil(), evenEmpty)
     assertEquals(Nil(), oddEmpty)
 
+  @Test def testleftFold() =
+    val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+    println(foldLeft(lst, 0, _ - _)) //-16
 end SequenceTest

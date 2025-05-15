@@ -1,5 +1,10 @@
 package u02
 
+
+import u03.extensionmethods.Sequences.Sequence.foldLeft
+
+import scala.compiletime.ops.int.+
+
 object Modules extends App:
 
   // An ADT: type + module
@@ -24,4 +29,26 @@ object Modules extends App:
     case _ => false
 
   println(isStudent(Student("mario", 2015)))
+
+  import u03.extensionmethods.Sequences.*
+
+  extension (s: Sequence[Person])
+
+    def courseOfTeachers(): Sequence[String] =
+      s.filter((p: Person) => !isStudent(p)).map((a: Person) => a.asInstanceOf[Teacher].course)
+
+  end extension
+
+  def courseOfTeachers2(s: Sequence[Person]): Sequence[String] =
+    s.filter {
+      case Teacher(_, _) => true
+      case _: Person => false
+    }.map {
+      case Teacher(_, course) => course
+      case _ => ""
+    }
+
+  def totalCourseOfTeachers(s: Sequence[Person]): Int =
+    s.filter((p: Person) => !isStudent(p)).map((a: Person) => a.asInstanceOf[Teacher].course.length).foldLeft(0, _ + _)
+
 end Modules
